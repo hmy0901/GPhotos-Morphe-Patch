@@ -16,6 +16,7 @@ Sources inspected directly from the official [`MorpheApp/morphe-patcher`](https:
 - That source commit's `gradle.properties` declares Patcher version `2.1.0`; its wrapper pins Gradle `9.8.2` with SHA-256 verification.
 - Its version catalog pins Kotlin `2.4.21`; its build compiles library bytecode to JVM 11. Official CI runs Gradle on JDK 17 and tests against JDK 11, 17, and 25.
 - The public API dump contains `app.morphe.patcher.Patcher`, `PatcherConfig`, `PatcherContext`, and `PatcherResult`.
+- The official runtime dependency catalog includes Bouncy Castle `bcpkix-jdk18on:1.77`, Android tools `apksig`/`apkzlib:9.1.1`, ARSCLib commit `4695b583ef`, Guava `33.5.0-jre`, Kotlin reflection `2.4.21`, coroutines `1.10.2`, serialization JSON `1.12.0`, and Morphe's smali commit `ac700e1942`. It uses Android API stubs `com.google.android:android:4.1.1.4` as compile-only. Its test dependencies include MockK `1.14.11`, Kotlin test, and JUnit Jupiter `5.10.1`.
 - The official setup guide states GitHub Packages authentication with `read:packages` is required even for public packages. No credential values are stored in this repository.
 
 ### Artifact access result
