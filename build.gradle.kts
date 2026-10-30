@@ -22,6 +22,8 @@ val morphePatcherApi = configurations.create("morphePatcherApi") {
     isCanBeResolved = true
 }
 
+val morpheApiProbe = sourceSets.create("morpheApiProbe")
+
 dependencies {
     testImplementation(kotlin("test-junit5"))
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
@@ -30,6 +32,13 @@ dependencies {
     // requires read:packages authentication. Resolve it explicitly with
     // `./scripts/gradle.sh verifyMorphePatcherApi` after configuring GITHUB_ACTOR and a token.
     add(morphePatcherApi.name, "app.morphe:morphe-patcher:2.1.0")
+    add(morpheApiProbe.implementationConfigurationName, "app.morphe:morphe-patcher:2.1.0")
+}
+
+tasks.register("verifyMorpheSourceApi") {
+    group = "verification"
+    description = "Compiles a direct reference to the official Morphe Patcher API."
+    dependsOn("compileMorpheApiProbeKotlin")
 }
 
 tasks.test {
@@ -41,6 +50,14 @@ tasks.register("verifyMorphePatcherApi") {
     description = "Resolves the official Morphe Patcher 2.1.0 API artifact from GitHub Packages."
 
     doLast {
+        if (providers.gradleProperty("skipMorpheSourceComposite").orNull != "true" &&
+            rootProject.file(".gradle/morphe-sources/morphe-patcher/settings.gradle.kts").isFile
+        ) {
+            throw GradleException(
+                "Run with -PskipMorpheSourceComposite=true to check GitHub Packages; " +
+                    "otherwise the local source build would satisfy this dependency."
+            )
+        }
         val actor = providers.environmentVariable("GITHUB_ACTOR").orNull
             ?: providers.gradleProperty("gpr.user").orNull
         val token = providers.environmentVariable("GITHUB_TOKEN").orNull
