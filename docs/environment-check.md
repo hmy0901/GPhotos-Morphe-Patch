@@ -20,7 +20,7 @@ Sources inspected directly from the official [`MorpheApp/morphe-patcher`](https:
 
 ### Artifact access result
 
-The official source was cloned successfully through the existing GitHub HTTPS proxy. Requests to `maven.pkg.github.com` did not reach Maven: curl reported `CONNECT tunnel failed, response 403` (HTTP status `000`). The current allowlist does not include `maven.pkg.github.com`. This is an egress-policy block, not an HTTP 401 from GitHub Packages, so the available token's package scope could not yet be evaluated. After allowing that host, retry `./gradlew verifyMorphePatcherApi`; if GitHub returns 401, use a GitHub credential with `read:packages` and a matching `GITHUB_ACTOR` as described by Morphe's official setup instructions.
+The official source was cloned successfully through the existing GitHub HTTPS proxy. Requests to `maven.pkg.github.com` did not reach Maven: curl reported `CONNECT tunnel failed, response 403` (HTTP status `000`). The current allowlist does not include `maven.pkg.github.com`. This is an egress-policy block, not an HTTP 401 from GitHub Packages, so the available token's package scope could not yet be evaluated. After allowing that host, retry `./scripts/gradle.sh --no-daemon verifyMorphePatcherApi`; if GitHub returns 401, use a GitHub credential with `read:packages` and a matching `GITHUB_ACTOR` as described by Morphe's official setup instructions.
 
 ## Machine toolchain
 
@@ -34,7 +34,7 @@ The official source was cloned successfully through the existing GitHub HTTPS pr
 - `./scripts/install.sh` checks Java 17+ and runs the Gradle wrapper plus JVM tests.
 - `./scripts/test.sh` reruns the JVM unit tests on every call, even when Gradle's task cache is warm.
 - `scripts/gradle.sh` translates the cloud's `HTTPS_PROXY`/`HTTP_PROXY` host and port to JVM proxy properties; Java and Gradle do not consume those curl-style variables automatically.
-- `./gradlew verifyMorphePatcherApi` is an explicit authenticated artifact check; it is separate from ordinary compilation/tests so local JVM setup remains usable while GitHub Packages access is being configured.
+- `./scripts/gradle.sh --no-daemon verifyMorphePatcherApi` is an explicit authenticated artifact check; it is separate from ordinary compilation/tests so local JVM setup remains usable while GitHub Packages access is being configured.
 - No Google Photos APK was downloaded or modified.
 
 ## Verification result

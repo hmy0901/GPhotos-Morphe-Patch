@@ -28,7 +28,7 @@ dependencies {
 
     // Kept separate from the default compile/test classpaths because GitHub Packages
     // requires read:packages authentication. Resolve it explicitly with
-    // `./gradlew verifyMorphePatcherApi` after configuring GITHUB_ACTOR and a token.
+    // `./scripts/gradle.sh verifyMorphePatcherApi` after configuring GITHUB_ACTOR and a token.
     add(morphePatcherApi.name, "app.morphe:morphe-patcher:2.1.0")
 }
 
